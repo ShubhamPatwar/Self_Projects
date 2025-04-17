@@ -12,7 +12,7 @@ A simple Flask web app to place a transparent signature on a PDF.
 ## Setup
 
 ```bash
-git clone https://github.com/yourusername/pdf-signature-app.git
-cd pdf-signature-app
+git clone https://github.com/ShubhamPatwar/Self_Projects.git
+cd Pdf_signature_maker
 pip install -r requirements.txt
 python app.py
