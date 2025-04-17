@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF Signature Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    input, label, button {
+      display: block;
+      width: 100%;
+      margin-top: 15px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Upload PDF and Signature Medinno</h2>
+    <form id="signForm" enctype="multipart/form-data">
+      <label for="pdf">PDF File:</label>
+      <input type="file" id="pdf" name="pdf" accept="application/pdf" required>
+
+      <label for="signature">Signature Image:</label>
+      <input type="file" id="signature" name="signature" accept="image/*" required>
+
+      <label for="x">X Position:</label>
+      <input type="number" id="x" name="x" placeholder="e.g. x for moving right " required>
+
+      <label for="y">Y Position:</label>
+      <input type="number" id="y" name="y" placeholder="y for moving down " required>
+
+      <label for="width">Width:</label>
+      <input type="number" id="width" name="width" value="150">
+
+      <label for="height">Height:</label>
+      <input type="number" id="height" name="height" value="50">
+
+      <label for="page">Page Number (0-indexed):</label>
+      <input type="number" id="page" name="page" value="0">
+
+      <button type="submit">Sign PDF</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('signForm');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      const response = await fetch('/sign-pdf', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'signed_output.pdf';
+        link.click();
+      } else {
+        alert('Error signing PDF. Check the inputs.');
+      }
+    });
+  </script>
+</body>
+</html>
+
